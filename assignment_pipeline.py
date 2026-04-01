@@ -222,11 +222,14 @@ def run_folder_inference(output_dir: Path, score_threshold: float = 0.5):
             if preds:
                 total_with_dets += 1
 
-            image.save(annotated_dir / image_path.name)
+            relative_image_path = image_path.relative_to(input_dir)
+            annotated_image_path = annotated_dir / relative_image_path
+            annotated_image_path.parent.mkdir(parents=True, exist_ok=True)
+            image.save(annotated_image_path)
 
             records.append(
                 {
-                    "image": str(image_path.name),
+                    "image": str(relative_image_path.as_posix()),
                     "width": width,
                     "height": height,
                     "predictions": preds,
