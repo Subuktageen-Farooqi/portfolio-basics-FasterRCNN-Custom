@@ -115,12 +115,20 @@ def calculate_iou(box1, box2):
 
 
 # Step 7: Calculate Precision and Recall
-def calculate_precision_recall(pred_boxes, pred_scores, pred_labels, gt_boxes, gt_labels, iou_threshold=0.5):
+def calculate_precision_recall(
+    pred_boxes,
+    pred_scores,
+    pred_labels,
+    gt_boxes,
+    gt_labels,
+    iou_threshold=0.5,
+    score_threshold=0.0,
+):
     tp, fp = 0, 0
     matched_gt = set()
 
     for i, pred_box in enumerate(pred_boxes):
-        if pred_scores[i] < iou_threshold:
+        if pred_scores[i] < score_threshold:
             continue
 
         best_iou = 0
